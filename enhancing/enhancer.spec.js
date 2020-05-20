@@ -1,4 +1,4 @@
-const {succeed, repair, fail} = require('./enhancer.js');
+const {succeed, repair, fail, get} = require('./enhancer.js');
 
 describe('enhancement method testing', () => {
     describe('succeed()', () => {
@@ -12,6 +12,7 @@ describe('enhancement method testing', () => {
             expect(succeed({name: "marc", durability:14, enhancement: 40})).toStrictEqual({name: "marc", durability:14, enhancement: 20})
         })
     })
+
     describe('fail()', () => {
         it('if the enh < 15, durab -5', () => {
             expect(fail({name: "marc", durability:14, enhancement: 10})).toStrictEqual({name: "marc", durability:9, enhancement: 10})
@@ -24,14 +25,21 @@ describe('enhancement method testing', () => {
         })
     })
 
-
-
     describe('repair()', () => {
         it('resets durability to 100', () => {
             expect(repair({name: "marc", durability:14, enhancement: 20})).toStrictEqual({name: "marc", durability:100, enhancement: 20})
         })
         it('maxes durability at 100', () => {
             expect(repair({name: "marc", durability:140, enhancement: 20})).toStrictEqual({name: "marc", durability:100, enhancement: 20})
+        })
+    })
+
+    describe('get()', () => {
+        it('returns item untouched if enh = 0', () => {
+            expect(get({name: "marc", durability:14, enhancement: 0})).toStrictEqual({name: "marc", durability:14, enhancement: 0})
+        })
+        it('returns item.name [=enh] if enh > 0', () => {
+            expect(get({name: "marc", durability:14, enhancement: 20})).toStrictEqual({name: "[+20] marc", durability:14, enhancement: 20})
         })
     })
 })

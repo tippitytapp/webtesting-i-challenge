@@ -41,7 +41,7 @@ function fail(item) {
     return item;
   }
 }
-fail(item);
+
 function repair(item) {
   if(item.durability < 100){
   return { ...item, durability: 100 };
@@ -52,5 +52,11 @@ function repair(item) {
 }
 
 function get(item) {
-  return { ...item };
+  if(item.enhancement === 0){
+    return item
+  } else {
+    let nameo = `[+${item.enhancement}] ${item.name}`
+    return {...item, name: nameo}
+  }
 }
+
